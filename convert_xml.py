@@ -4,19 +4,6 @@ from lxml import etree
 
 
 
-def incrementGuid(guid):
-    #print guid
-    guidLastChrs = guid[24:]
-    guidBeginning = guid[:24]
-    #print guidBeginning
-    #print guidLastChrs
-    hex_int = int(guidLastChrs, 16)
-    new_int = hex_int + 1
-    #print hex(new_int)
-    new_guid = guidBeginning + hex(new_int)[2:]
-    #print new_guid
-    return new_guid
-    
 def main():
     dom = etree.parse("Import.gpx")
 
@@ -30,7 +17,6 @@ def main():
 
     path = None
     foundFirstEntry = False
-    guid = "1ba737eb-fe8f-4a57-af67-853309d1dcee"
     odPoint = None
     pCount = 1
     
@@ -49,10 +35,6 @@ def main():
                 desc = etree.Element("desc")
                 path.append(desc)
                 desc.text = (tag.text)
-                #Calculate new guid
-                newGuid = incrementGuid(guid)
-                guid = newGuid
-                etree.SubElement(path, "{%s}guid" % opencpnNS).text = guid
                 etree.SubElement(path, "{%s}viz" % opencpnNS).text = "1"
                 etree.SubElement(path, "{%s}active" % opencpnNS).text = "1"
                 etree.SubElement(path, "{%s}style" % opencpnNS, active_colour="rgb(255, 0, 0)", active_fillcolour="rgb(255, 0, 0)",
@@ -77,15 +59,14 @@ def main():
                 pSym = etree.Element("sym")
                 pSym.text = "Anchorage"
                 odPoint.append(pSym)
-                newGuid = incrementGuid(guid)
-                guid = newGuid
-                etree.SubElement(odPoint, "{%s}guid" % opencpnNS).text = guid
                 etree.SubElement(odPoint, "{%s}viz" % opencpnNS).text = "1"
                 etree.SubElement(odPoint, "{%s}viz_name" % opencpnNS).text = "0"
                 etree.SubElement(odPoint, "{%s}auto_name" % opencpnNS).text = "1"
                 etree.SubElement(odPoint, "{%s}arrival_radius" % opencpnNS).text = "0.000"
                 etree.SubElement(odPoint, "{%s}ODPoint_range_rings" % opencpnNS, visible="false", number="0", step="1",
                                  units="0", colour="#0000FE", width="2", line_style="100")
+
+
     #print(etree.tostring(drawTree, pretty_print = True, xml_declaration = True))
     with open('./Output.gpx', 'wb') as f:
         f.write(etree.tostring(drawTree, pretty_print = True, xml_declaration = True))
