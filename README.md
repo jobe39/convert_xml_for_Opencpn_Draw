@@ -2,7 +2,7 @@ Simple Python File to convert gpx file from http://www.anchoragesincroatia.net/p
 
 INSTALL:
 ========
-Simply download the python file. Install Python interpreter, pip and install lxml library. 
+Simply download the python file. Install Python interpreter, pip and install lxml library and needed dependences for lxml. 
 
 HOW TO USE:
 ===========
