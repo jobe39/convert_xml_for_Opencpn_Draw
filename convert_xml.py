@@ -19,6 +19,7 @@ def main():
     foundFirstEntry = False
     odPoint = None
     pCount = 1
+    pDesc = ''
     
     for tag in dom.iter():
         if not len(tag):
@@ -35,6 +36,7 @@ def main():
                 desc = etree.Element("desc")
                 path.append(desc)
                 desc.text = (tag.text)
+                pDesc = tag.text
                 etree.SubElement(path, "{%s}viz" % opencpnNS).text = "1"
                 etree.SubElement(path, "{%s}active" % opencpnNS).text = "1"
                 etree.SubElement(path, "{%s}style" % opencpnNS, active_colour="rgb(255, 0, 0)", active_fillcolour="rgb(255, 0, 0)",
@@ -54,6 +56,9 @@ def main():
                 pName = etree.Element("name")
                 pName.text="%03d" %pCount
                 odPoint.append(pName)
+                odDesc = etree.Element("desc")
+                odDesc.text = pDesc
+                odPoint.append(odDesc)
                 pCount += 1
                 etree.SubElement(odPoint, "{%s}boundary_type" % opencpnNS).text = "Exclusion"
                 pSym = etree.Element("sym")
